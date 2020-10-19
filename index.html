@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+    * {
+        box-sizing: border-box;
+        font-family: 'Open Sans', 'Arial', sans-serif;
+        font-weight: 300;
+    }
+
+    html, body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .controlPanel {
+        max-width: 100px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .controlPanel div {
+        width: 100%;
+        max-width: 100px;
+        text-align: center;
+        padding: 10px 10px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .controlPanel div:hover {
+        background-color:  rgba(255, 255, 255, 0.7);
+    }
+
+    .notification {
+        max-width: 100px;
+        position: fixed;
+        top: 0;
+        right: 0;
+        text-align: right;
+        padding: 10px;
+    }
+
+    .input input {
+        width: 100%;
+        border: 0;
+        line-height: 1.2em;
+        font-size: 1em;
+        border-radius: 3px;
+        padding: 0 10px;
+    }
+
+    .input input:focus {
+        outline: none;
+    }
+
+    .controlPanel hr {
+        border: 0;
+        height: 1px;
+        background-color: #C4D7F2;
+        width: 80%;
+    }
+</style>
+
+<body>
+    <canvas id="canv" style="display: block; margin: 0 auto"></canvas>
+
+    <div class="controlPanel">
+        <div id="start">
+            Start
+        </div>
+        <div id="stop">
+            Stop
+        </div>
+        <div id="clear">
+            Clear
+        </div>
+        <hr>
+        <div class="statuses">
+            <div id="drawStatus">Drawer</div>
+            <div id="physicsStatus">Physics</div>
+        </div>
+        <hr>
+        <div class="input">
+            <input type="text" id="mass" placeholder="mass">
+            <input type="text" id="radius" placeholder="radius">
+        </div>
+        <hr>
+        <div class="debug">
+            <div id="drawDebug">Debug</div>
+            <div id="drawTrajectories">Traject.</div>
+        </div>
+    </div>
+
+    <div class="notification"></div>
+    
+    <script src="js/NotificationsHelper.js"></script>
+    <script src="js/Main.js"></script>
+    <script src="js/Draw.js"></script>
+    <script src="js/Body.js"></script>
+    <script src="js/Physics.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", main);
+    </script>
+</body>
+
+</html>

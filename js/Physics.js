@@ -4,10 +4,10 @@ class Physics {
 
     PRECISION = 10;
 
-    FORCE_THRESHOLD = 0.01; // 0.01 by default
-    FORCE_COEFFICIENT = 5e-5; // 0.00005 by default
-    SPEED_THRESHOLD = 1e9; // 5 by default
-    SLOWING_COEFF = 0.000; // 0.00005 by default
+    FORCE_THRESHOLD = 0.5; // 0.5 by default
+    FORCE_COEFFICIENT = 5e-8; // 5e-8 by default
+    SPEED_THRESHOLD = 5; // 5 by default
+    SLOWING_COEFF = 0.000; // 0.0000 by default
 
     start() {
         if (!this.performing) {
@@ -50,6 +50,10 @@ class Physics {
                 let xDiff = Math.abs(body.x - bodies[i].x);
 
                 let dist = +Math.sqrt(xDiff * xDiff + yDiff * yDiff).toFixed(this.PRECISION);
+
+                if (dist < body.radius + bodies[i].radius) {
+                    dist = body.radius + bodies[i].radius;
+                }
 
                 let force = this.FORCE_COEFFICIENT * bodies[i].mass / (dist * dist);
                 force = +force.toFixed(this.PRECISION);

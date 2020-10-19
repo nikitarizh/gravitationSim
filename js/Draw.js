@@ -2,8 +2,8 @@ class Draw {
     interval;
     drawing;
 
-    drawDebug = true;
-    drawTrajectories = true;
+    drawDebug = false;
+    drawTrajectories = false;
 
     BKG_COLOR = '#000000';
 

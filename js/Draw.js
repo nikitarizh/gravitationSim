@@ -66,7 +66,7 @@ class Draw {
 
         // drawing bodies and characteristics
         for (let i = 0; i < bodies.length; i++) {
-            this.drawCircle(bodies[i].x * u, bodies[i].y * u, bodies[i].radius * u, '#fff');
+            this.drawCircle(bodies[i].x * u, bodies[i].y * u, bodies[i].radius * u, 'rgb(100, 100, 255)');
 
             if (this.drawDebug) {
                 this.drawDebugInfo(bodies[i]);

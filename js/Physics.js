@@ -60,7 +60,6 @@ class Physics {
 
                 if (force > this.FORCE_THRESHOLD) {
                     force = this.FORCE_THRESHOLD;
-                    (new Draw).drawLine(body.x, body.y, bodies[i].x, bodies[i].y, 'red', 1);
                 }
 
                 if (body.x >= bodies[i].x) {

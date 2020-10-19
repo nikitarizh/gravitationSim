@@ -41,10 +41,10 @@ function main() {
     // bodies.push(new Body(500, 0.3, 20, 25));
     // bodies.push(new Body(1000, 0.3, 30, 20));
 
-    // bodies.push(new Body(1e9, 3, 100, 100));
-    // bodies.push(new Body(1e9, 3, 150, 150));
-    // bodies.push(new Body(1e9, 3, 100, 150));
-    // bodies.push(new Body(1e9, 3, 150, 100));
+    bodies.push(new Body(1e9, 3, 100, 100));
+    bodies.push(new Body(1e9, 3, 150, 150));
+    bodies.push(new Body(1e9, 3, 100, 150));
+    bodies.push(new Body(1e9, 3, 150, 100));
 
     // bodies.push(new Body(1e1, 3, 100, 200));
     // bodies.push(new Body(1e1, 3, 200, 200));
@@ -73,7 +73,7 @@ function init() {
 function initButtons(Drawer, Physician) {
     debugStatus.style.color = Drawer.drawDebug ? COLOR_GREEN : COLOR_RED;
     trajectoriesStatus.style.color = Drawer.drawTrajectories ? COLOR_GREEN : COLOR_RED;
-    
+
     let startButton = document.getElementById('start');
     let stopButton = document.getElementById('stop');
     let clearButton = document.getElementById('clear');

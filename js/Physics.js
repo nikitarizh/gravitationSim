@@ -4,9 +4,9 @@ class Physics {
 
     PRECISION = 10;
 
-    FORCE_THRESHOLD = 0.5; // 0.5 by default
+    FORCE_THRESHOLD = 1; // 0.5 by default
     FORCE_COEFFICIENT = 5e-8; // 5e-8 by default
-    SPEED_THRESHOLD = 5; // 5 by default
+    SPEED_THRESHOLD = 10; // 5 by default
     SLOWING_COEFF = 0.000; // 0.0000 by default
 
     start() {
@@ -123,8 +123,8 @@ class Physics {
             bodies[i].ySpeed = +bodies[i].ySpeed.toFixed(this.PRECISION);
 
             let speed = Math.sqrt(bodies[i].xSpeed * bodies[i].xSpeed + bodies[i].ySpeed * bodies[i].ySpeed);
-            if (speed > this.SPEED_THRESHOLD) {
-                let rel = speed / this.SPEED_THRESHOLD;
+            if (Math.abs(speed) > this.SPEED_THRESHOLD) {
+                let rel = Math.abs(speed / this.SPEED_THRESHOLD);
                 bodies[i].xSpeed /= rel;
                 bodies[i].ySpeed /= rel;
             }

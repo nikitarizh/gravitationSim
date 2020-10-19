@@ -4,9 +4,9 @@ class Physics {
 
     PRECISION = 10;
 
-    FORCE_THRESHOLD = 1; // 0.5 by default
-    FORCE_COEFFICIENT = 5e-8; // 5e-8 by default
-    SPEED_THRESHOLD = 10; // 5 by default
+    FORCE_THRESHOLD = 10; // 0.5 by default
+    FORCE_COEFFICIENT = 5e-6; // 5e-8 by default
+    SPEED_THRESHOLD = 20; // 5 by default
     SLOWING_COEFF = 0.000; // 0.0000 by default
 
     start() {
@@ -60,6 +60,7 @@ class Physics {
 
                 if (force > this.FORCE_THRESHOLD) {
                     force = this.FORCE_THRESHOLD;
+                    (new Draw).drawLine(body.x, body.y, bodies[i].x, bodies[i].y, 'red', 1);
                 }
 
                 if (body.x >= bodies[i].x) {

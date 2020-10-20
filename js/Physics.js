@@ -4,7 +4,7 @@ class Physics {
 
     PRECISION = 10;
 
-    FORCE_THRESHOLD = 10; // 0.5 by default
+    FORCE_THRESHOLD = 100; // 0.5 by default
     FORCE_COEFFICIENT = 5e-6; // 5e-8 by default
     SPEED_THRESHOLD = 20; // 5 by default
     SLOWING_COEFF = 0.000; // 0.0000 by default
@@ -39,6 +39,8 @@ class Physics {
         this.calculateResistance();
 
         this.moveBodies();
+
+        this.checkCollisions();
     }
 
     calculateForce(body) {
@@ -135,12 +137,37 @@ class Physics {
     }
 
     checkCollisions() {
-        for (let i = 0; i < bodies.length - 1; i++) {
-            for (let j = i + 1; j < bodies.length; j++) {
-                if (bodies[i].x == bodies[j].x && bodies[i].y == bodies[j].y) {
+        let i = 0;
+        let j = 1;
+        while (i < bodies.length - 1) {
+            j = i + 1;
+            while (j < bodies.length) {
+                if (Math.abs(bodies[i].x - bodies[j].x) <= (bodies[i].radius + bodies[j].radius) 
+                    && Math.abs(bodies[i].y - bodies[j].y) <= (bodies[i].radius + bodies[j].radius)) {
+                    let m1 = bodies[i].mass;
+                    let m2 = bodies[j].mass;
+                    let m3 = m1 + m2;
 
+                    bodies[i].mass = m3;
+                    bodies[i].radius = Math.max(bodies[i].radius, bodies[j].radius);
+                    console.log('m1: ' + m1);
+                    console.log('m2: ' + m2);
+                    console.log('m3: ' + m3);
+                    console.log('xs1: ' + bodies[i].xSpeed);
+                    console.log('ys1: ' + bodies[i].ySpeed);
+                    console.log('xs2: ' + bodies[j].xSpeed);
+                    console.log('ys2: ' + bodies[j].ySpeed);
+                    bodies[i].xSpeed = (m1 * bodies[i].xSpeed + m2 * bodies[j].xSpeed) / m3;
+                    bodies[i].ySpeed = (m1 * bodies[i].ySpeed + m2 * bodies[j].ySpeed) / m3;
+
+
+                    bodies.splice(j, 1);
+                }
+                else {
+                    j++;
                 }
             }
+            i++;
         }
     }
 }

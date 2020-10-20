@@ -134,6 +134,6 @@ function initClickEvent() {
             Notification.new('ERROR', 'Enter correct radius');
             return;
         }
-        bodies.push(new Body(mass, radius, e.offsetX / u, e.offsetY / u));
+        bodies.push(new Body(+mass, +radius, e.offsetX / u, e.offsetY / u));
     });
 }

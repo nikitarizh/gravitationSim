@@ -6,7 +6,17 @@ class NotificationsHelper {
     }
 
     new(status, text) {
-        let color = (status == 200 || status == 'OK') ? COLOR_GREEN : COLOR_YELLOW;
+        let color;
+        switch (status) {
+            case 'OK':
+                color = COLOR_GREEN;
+                break;
+            case 'ERROR:':
+                color = COLOR_RED;
+                break;
+            default: 
+                color = COLOR_YELLOW;
+        }
         let div = document.createElement('div');
         div.style.color = color;
         div.innerHTML = text;

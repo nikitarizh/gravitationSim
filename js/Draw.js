@@ -61,6 +61,7 @@ class Draw {
     }
 
     drawFrame() {
+        ctx.clearRect(0, 0, FIELD_WIDTH * u, FIELD_HEIGHT * u);
         // bkg
         this.drawRectangle(0, 0, FIELD_WIDTH, FIELD_HEIGHT, this.BKG_COLOR);
 
@@ -76,6 +77,7 @@ class Draw {
                 this.drawTrajectory(bodies[i]);
             }
         }
+
     }
 
     drawDebugInfo(body) {
@@ -94,6 +96,7 @@ class Draw {
 
     drawLine(x1, y1, x2, y2, color, width = 1) {
         ctx.strokeStyle = color;
+        ctx.beginPath();
         ctx.moveTo(x1 * u, y1 * u);
         ctx.lineTo(x2 * u, y2 * u);
         ctx.lineWidth = width;

@@ -23,7 +23,6 @@ const COLOR_YELLOW = '#eaff00';
 
 function main() {
     init();
-    initClickEvent();
 
     const Drawer = new Draw();
     Drawer.start();
@@ -32,6 +31,8 @@ function main() {
     Physician.start();
 
     initButtons(Drawer, Physician);
+    initClickEvent(Drawer);
+
 
     // bodies.push(new Body(100, 0.1, 7.5, 5));
     // bodies.push(new Body(100, 0.2, 15, 15.5));
@@ -120,9 +121,23 @@ function initButtons(Drawer, Physician) {
     });
 }
 
-function initClickEvent() {
-    canv.addEventListener('click', function(e) {
+function initClickEvent(Drawer) {
+    let x1 = -1, y1 = -1;
+    let x2 = -1, y2 = -1;
+    let mousedown = false;
+    canv.addEventListener('mousedown', function(e) {
 
+        if (mousedown == false) {
+            x1 = e.offsetX / u;
+            y1 = e.offsetY / u;
+            x2 = e.offsetX / u;
+            y2 = e.offsetY / u;
+        }
+
+        mousedown = true;
+    });
+
+    canv.addEventListener('mouseup', function(e) {
         let mass = document.getElementById('mass').value;
         let radius = document.getElementById('radius').value;
 
@@ -134,6 +149,48 @@ function initClickEvent() {
             Notification.new('ERROR', 'Enter correct radius');
             return;
         }
-        bodies.push(new Body(+mass, +radius, e.offsetX / u, e.offsetY / u));
+
+        //calculating distance and speed
+        let xDist = x1 - x2;
+        let yDist = y1 - y2;
+        let dist = xDist * xDist + yDist * yDist;
+
+        let speed = dist / (1000);
+
+        let angle = Math.atan2(x2 - x1, y2 - y1) - Math.PI / 2;
+
+        let xSpeed = speed * Math.cos(angle);
+        
+        let ySpeed = -speed * Math.sin(angle);
+
+
+        if (isNaN(xSpeed)) {
+            xSpeed = 0;
+        }
+        if (isNaN(ySpeed)) {
+            ySpeed = 0;
+        }
+
+        bodies.push( { mass: +mass, radius: +radius, x: x1, y: y1, xSpeed, ySpeed } );
+
+        x1 = -1;
+        y1 = -1;
+        x2 = -1;
+        y2 = -1;
+        mousedown = false;
     });
+
+    canv.addEventListener('mousemove', function(e) {
+        if (mousedown) {
+            x2 = e.offsetX / u;
+            y2 = e.offsetY / u;
+        }
+    });
+    
+    setInterval(function() {
+        if (mousedown) {
+            Drawer.drawLine(x1, y1, x2, y2, '#fff', 1);
+        }
+    }, 1000 / FPS);
+
 }

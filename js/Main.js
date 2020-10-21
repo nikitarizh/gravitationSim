@@ -50,7 +50,7 @@ function main() {
     // bodies.push(new Body(1e1, 3, 100, 200));
     // bodies.push(new Body(1e1, 3, 200, 200));
     // bodies.push(new Body(1e1, 3, 150, 120));
-    // bodies.push(new Body(1e9, 5, 300, 160));
+    // bodies.push(new Body(1e8, 20, 150, 100));
 
     // for (let i = 0; i < 5; i++) {
     //     let mass = Math.random() * 500;
@@ -127,6 +127,10 @@ function initClickEvent(Drawer, Physician) {
     let mousedown = false;
     canv.addEventListener('mousedown', function(e) {
 
+        if (e.button != 0) {
+            return;
+        }
+
         if (mousedown == false) {
             x1 = e.offsetX / u;
             y1 = e.offsetY / u;
@@ -134,12 +138,13 @@ function initClickEvent(Drawer, Physician) {
             y2 = e.offsetY / u;
 
             let closestBody = Physician.getClosestBody(x1, y1);
+            
             if (closestBody != null) {
+                let radius = +document.getElementById('radius').value;
                 let dist = Physician.calculateDistance(x1, y1, closestBody.x, closestBody.y);
                 let orbitalSpeed = Physician.calculateOrbitalSpeed(closestBody, dist);
                 Notification.new('OK', 'Orbital speed for closest body: ' + orbitalSpeed);
                 
-                let radius = +document.getElementById('radius').value;
                 console.log(radius + closestBody.radius);
                 console.log(dist);
                 if (dist <= radius + closestBody.radius) {
@@ -152,6 +157,11 @@ function initClickEvent(Drawer, Physician) {
     });
 
     canv.addEventListener('mouseup', function(e) {
+
+        if (!mousedown) {
+            return;
+        }
+
         let mass = document.getElementById('mass').value;
         let radius = document.getElementById('radius').value;
 
@@ -180,7 +190,7 @@ function initClickEvent(Drawer, Physician) {
             ySpeed = 0;
         }
 
-        bodies.push( { mass: +mass, radius: +radius, x: x1, y: y1, xSpeed, ySpeed } );
+        bodies.push(new Body(+mass, +radius, x1, y1, xSpeed, ySpeed));
 
         x1 = -1;
         y1 = -1;
@@ -202,4 +212,33 @@ function initClickEvent(Drawer, Physician) {
             Drawer.drawText('speed: ' + Physician.calculateSpawnSpeed(x1, y1, x2, y2), x1, y1, COLOR_YELLOW);
         }
     }, 1000 / FPS);
+
+    canv.addEventListener('contextmenu', function(e) {
+        if (bodies.length == 0) {
+            return;
+        }
+        e.preventDefault();
+        x1 = e.offsetX / u;
+        y1 = e.offsetY / u;
+        let mass = +document.getElementById('mass').value;
+        let radius = +document.getElementById('radius').value;
+
+        if (!mass || mass < 0 || isNaN(+mass)) {
+            Notification.new('ERROR', 'Enter correct mass');
+            return;
+        }
+        if (!radius || radius < 0 || isNaN(+radius)) {
+            Notification.new('ERROR', 'Enter correct radius');
+            return;
+        }
+
+        let closestBody = Physician.getClosestBody(x1, y1);
+        let dist = Physician.calculateDistance(x1, y1, closestBody.x, closestBody.y);
+        let speed = Physician.calculateOrbitalSpeed(closestBody, dist);
+
+        let xSpeed = speed;
+        let ySpeed = 0;
+
+        bodies.push(new Body(mass, radius, x1, y1, xSpeed, ySpeed));
+    });
 }

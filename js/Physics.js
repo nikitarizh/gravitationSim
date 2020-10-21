@@ -2,7 +2,7 @@ class Physics {
     interval;
     performing;
 
-    PRECISION = 10;
+    PRECISION = 7;
 
     FORCE_THRESHOLD = 10; // 0.5 by default
     FORCE_COEFFICIENT = 5e-6; // 5e-8 by default
@@ -51,7 +51,7 @@ class Physics {
                 let yDiff = Math.abs(body.y - bodies[i].y);
                 let xDiff = Math.abs(body.x - bodies[i].x);
 
-                let dist = this.calculateDistance(body.x, body.y, bodies[i].x, bodies[i].y) + body.radius + bodies[i].radius;
+                let dist = this.calculateDistance(body.x, body.y, bodies[i].x, bodies[i].y);
 
                 let force = this.FORCE_COEFFICIENT * bodies[i].mass / (dist * dist);
                 force = +force.toFixed(this.PRECISION);
@@ -177,7 +177,7 @@ class Physics {
             let xDist = x - bodies[i].x;
             let yDist = y - bodies[i].y;
             let distSquare = xDist * xDist + yDist * yDist;
-            if (distSquare < minDistSquare && x != bodies[i].x && y != bodies[i].y) {
+            if (distSquare < minDistSquare && !(x == bodies[i].x && y == bodies[i].y)) {
                 minDistSquare = distSquare;
                 closestBody = bodies[i];
             }
@@ -187,7 +187,7 @@ class Physics {
     }
 
     calculateOrbitalSpeed(body, dist) {
-        return Math.sqrt(this.FORCE_COEFFICIENT * body.mass / (body.radius + dist));
+        return Math.sqrt(this.FORCE_COEFFICIENT * body.mass / dist);
     }
 
     calculateSpawnSpeed(x1, y1, x2, y2) {

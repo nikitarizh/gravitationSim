@@ -51,11 +51,7 @@ class Physics {
                 let yDiff = Math.abs(body.y - bodies[i].y);
                 let xDiff = Math.abs(body.x - bodies[i].x);
 
-                let dist = +Math.sqrt(xDiff * xDiff + yDiff * yDiff).toFixed(this.PRECISION);
-
-                if (dist < body.radius + bodies[i].radius) {
-                    dist = body.radius + bodies[i].radius;
-                }
+                let dist = this.calculateDistance(body.x, body.y, bodies[i].x, bodies[i].y) + body.radius + bodies[i].radius;
 
                 let force = this.FORCE_COEFFICIENT * bodies[i].mass / (dist * dist);
                 force = +force.toFixed(this.PRECISION);
@@ -142,11 +138,9 @@ class Physics {
         while (i < bodies.length - 1) {
             j = i + 1;
             while (j < bodies.length) {
-                let xDiff = bodies[i].x - bodies[j].x;
-                let yDiff = bodies[i].y - bodies[j].y;
                 let rSum = bodies[i].radius + bodies[j].radius;
-                let distSquare = xDiff * xDiff + yDiff * yDiff;
-                if (Math.floor(distSquare) < rSum * rSum) {
+                let dist = this.calculateDistance(bodies[i].x, bodies[i].y, bodies[j].x, bodies[j].y);
+                if (Math.floor(dist) < rSum) {
                     let m1 = bodies[i].mass;
                     let m2 = bodies[j].mass;
                     let m3 = m1 + m2;
@@ -164,5 +158,43 @@ class Physics {
             }
             i++;
         }
+    }
+    
+    calculateDistance(x1, y1, x2, y2) {
+        let xDiff = x1 - x2;
+        let yDiff = y1 - y2;
+        return +Math.sqrt(xDiff * xDiff + yDiff * yDiff).toFixed(this.PRECISION);
+    }
+
+    getClosestBody(x, y) {
+        if (bodies.length == 0) {
+            return null;
+        }
+
+        let minDistSquare = 1e20;
+        let closestBody = null;
+        for (let i = 0; i < bodies.length; i++) {
+            let xDist = x - bodies[i].x;
+            let yDist = y - bodies[i].y;
+            let distSquare = xDist * xDist + yDist * yDist;
+            if (distSquare < minDistSquare && x != bodies[i].x && y != bodies[i].y) {
+                minDistSquare = distSquare;
+                closestBody = bodies[i];
+            }
+        }
+
+        return closestBody;
+    }
+
+    calculateOrbitalSpeed(body, dist) {
+        return Math.sqrt(this.FORCE_COEFFICIENT * body.mass / (body.radius + dist));
+    }
+
+    calculateSpawnSpeed(x1, y1, x2, y2) {
+        let dist = this.calculateDistance(x1, y1, x2, y2);
+
+        let speed = dist * dist / (1000);
+
+        return speed;
     }
 }

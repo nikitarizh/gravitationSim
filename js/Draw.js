@@ -73,7 +73,7 @@ class Draw {
                 this.drawDebugInfo(bodies[i]);
             }
             
-            if(this.drawTrajectories) {
+            if (this.drawTrajectories) {
                 this.drawTrajectory(bodies[i]);
             }
         }

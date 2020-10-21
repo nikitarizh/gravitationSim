@@ -31,7 +31,7 @@ function main() {
     Physician.start();
 
     initButtons(Drawer, Physician);
-    initClickEvent(Drawer);
+    initClickEvent(Drawer, Physician);
 
 
     // bodies.push(new Body(100, 0.1, 7.5, 5));
@@ -121,7 +121,7 @@ function initButtons(Drawer, Physician) {
     });
 }
 
-function initClickEvent(Drawer) {
+function initClickEvent(Drawer, Physician) {
     let x1 = -1, y1 = -1;
     let x2 = -1, y2 = -1;
     let mousedown = false;
@@ -132,6 +132,20 @@ function initClickEvent(Drawer) {
             y1 = e.offsetY / u;
             x2 = e.offsetX / u;
             y2 = e.offsetY / u;
+
+            let closestBody = Physician.getClosestBody(x1, y1);
+            if (closestBody != null) {
+                let dist = Physician.calculateDistance(x1, y1, closestBody.x, closestBody.y);
+                let orbitalSpeed = Physician.calculateOrbitalSpeed(closestBody, dist);
+                Notification.new('OK', 'Orbital speed for closest body: ' + orbitalSpeed);
+                
+                let radius = +document.getElementById('radius').value;
+                console.log(radius + closestBody.radius);
+                console.log(dist);
+                if (dist <= radius + closestBody.radius) {
+                    Notification.new('WARNING', 'WARNING: new body will collide with closest body');
+                }
+            }
         }
 
         mousedown = true;
@@ -151,18 +165,13 @@ function initClickEvent(Drawer) {
         }
 
         //calculating distance and speed
-        let xDist = x1 - x2;
-        let yDist = y1 - y2;
-        let dist = xDist * xDist + yDist * yDist;
-
-        let speed = dist / (1000);
+        let speed = Physician.calculateSpawnSpeed(x1, y1, x2, y2);
 
         let angle = Math.atan2(x2 - x1, y2 - y1) - Math.PI / 2;
 
         let xSpeed = speed * Math.cos(angle);
         
         let ySpeed = -speed * Math.sin(angle);
-
 
         if (isNaN(xSpeed)) {
             xSpeed = 0;
@@ -190,7 +199,7 @@ function initClickEvent(Drawer) {
     setInterval(function() {
         if (mousedown) {
             Drawer.drawLine(x1, y1, x2, y2, '#fff', 1);
+            Drawer.drawText('speed: ' + Physician.calculateSpawnSpeed(x1, y1, x2, y2), x1, y1, COLOR_YELLOW);
         }
     }, 1000 / FPS);
-
 }

@@ -142,8 +142,11 @@ class Physics {
         while (i < bodies.length - 1) {
             j = i + 1;
             while (j < bodies.length) {
-                if (Math.abs(bodies[i].x - bodies[j].x) <= (bodies[i].radius + bodies[j].radius) 
-                    && Math.abs(bodies[i].y - bodies[j].y) <= (bodies[i].radius + bodies[j].radius)) {
+                let xDiff = bodies[i].x - bodies[j].x;
+                let yDiff = bodies[i].y - bodies[j].y;
+                let rSum = bodies[i].radius + bodies[j].radius;
+                let distSquare = xDiff * xDiff + yDiff * yDiff;
+                if (Math.floor(distSquare) < rSum * rSum) {
                     let m1 = bodies[i].mass;
                     let m2 = bodies[j].mass;
                     let m3 = m1 + m2;
@@ -152,7 +155,6 @@ class Physics {
                     bodies[i].radius = Math.max(bodies[i].radius, bodies[j].radius);
                     bodies[i].xSpeed = (m1 * bodies[i].xSpeed + m2 * bodies[j].xSpeed) / m3;
                     bodies[i].ySpeed = (m1 * bodies[i].ySpeed + m2 * bodies[j].ySpeed) / m3;
-
 
                     bodies.splice(j, 1);
                 }

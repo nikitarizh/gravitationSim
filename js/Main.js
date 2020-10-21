@@ -239,6 +239,6 @@ function initClickEvent(Drawer, Physician) {
         let xSpeed = speed;
         let ySpeed = 0;
 
-        bodies.push(new Body(mass, radius, x1, y1, xSpeed, ySpeed));
+        bodies.push(new Body(mass, radius, closestBody.x, y1, xSpeed, ySpeed));
     });
 }

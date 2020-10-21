@@ -62,11 +62,11 @@ class Draw {
 
     drawFrame() {
         // bkg
-        this.drawRectangle(0, 0, FIELD_WIDTH * u, FIELD_HEIGHT * u, this.BKG_COLOR);
+        this.drawRectangle(0, 0, FIELD_WIDTH, FIELD_HEIGHT, this.BKG_COLOR);
 
         // drawing bodies and characteristics
         for (let i = 0; i < bodies.length; i++) {
-            this.drawCircle(bodies[i].x * u, bodies[i].y * u, bodies[i].radius * u, 'rgb(100, 100, 255)');
+            this.drawCircle(bodies[i].x, bodies[i].y, bodies[i].radius, 'rgb(100, 100, 255)');
 
             if (this.drawDebug) {
                 this.drawDebugInfo(bodies[i]);
@@ -79,36 +79,36 @@ class Draw {
     }
 
     drawDebugInfo(body) {
-        this.drawText('mass: ' + body.mass, body.x * u - body.radius * u, body.y * u - body.radius * u - 5 * this.DEBUG_FONT_SIZE, 'green');
-        this.drawText('xSpeed: ' + body.xSpeed, body.x * u - body.radius * u, body.y * u - body.radius * u - 4 * this.DEBUG_FONT_SIZE, 'green');
-        this.drawText('ySpeed: ' + body.ySpeed, body.x * u - body.radius * u, body.y * u - body.radius * u - 3 * this.DEBUG_FONT_SIZE, 'green');
-        this.drawText('xVelocity: ' + body.xVelocity, body.x * u - body.radius * u, body.y * u - body.radius * u - 2 * this.DEBUG_FONT_SIZE, 'green');
-        this.drawText('yVelocity: ' + body.yVelocity, body.x * u - body.radius * u, body.y * u - body.radius * u - this.DEBUG_FONT_SIZE, 'green');
+        this.drawText('mass: ' + body.mass, body.x - body.radius, body.y - body.radius - 5 * this.DEBUG_FONT_SIZE / u, 'green');
+        this.drawText('xSpeed: ' + body.xSpeed, body.x - body.radius, body.y - body.radius - 4 * this.DEBUG_FONT_SIZE / u, 'green');
+        this.drawText('ySpeed: ' + body.ySpeed, body.x - body.radius, body.y - body.radius - 3 * this.DEBUG_FONT_SIZE / u, 'green');
+        this.drawText('xVelocity: ' + body.xVelocity, body.x - body.radius, body.y - body.radius - 2 * this.DEBUG_FONT_SIZE / u, 'green');
+        this.drawText('yVelocity: ' + body.yVelocity, body.x - body.radius, body.y - body.radius - this.DEBUG_FONT_SIZE / u, 'green');
     }
 
     drawTrajectory(body) {
         let x2 = body.x + body.xSpeed * 10;
         let y2 = body.y + body.ySpeed * 10;
-        this.drawLine(body.x * u, body.y * u, x2 * u, y2 * u, 'white');
+        this.drawLine(body.x, body.y, x2, y2, 'white');
     }
 
     drawLine(x1, y1, x2, y2, color, width = 1) {
         ctx.strokeStyle = color;
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
+        ctx.moveTo(x1 * u, y1 * u);
+        ctx.lineTo(x2 * u, y2 * u);
         ctx.lineWidth = width;
         ctx.stroke();
     }
 
     drawRectangle(x, y, w, h, color) {
         ctx.fillStyle = color;
-        ctx.fillRect(x, y, w, h);
+        ctx.fillRect(x * u, y * u, w * u, h * u);
     }
 
     drawCircle(x, y, r, color) {
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x, y, r, 0, 2 * Math.PI);
+        ctx.arc(x * u, y * u, r * u, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill();
     }
@@ -116,6 +116,6 @@ class Draw {
     drawText(text, x, y, color) {
         ctx.font = this.DEBUG_FONT_SIZE + "px Arial";
         ctx.fillStyle = color;
-        ctx.fillText(text, x, y);
+        ctx.fillText(text, x * u, y * u);
     }
 }

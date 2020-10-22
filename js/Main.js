@@ -233,6 +233,7 @@ function initClickEvent(Drawer, Physician) {
         }
 
         let closestBody = Physician.getClosestBody(x1, y1);
+        x1 = closestBody.x;
         let dist = Physician.calculateDistance(x1, y1, closestBody.x, closestBody.y);
         let speed = Physician.calculateOrbitalSpeed(closestBody, dist);
 

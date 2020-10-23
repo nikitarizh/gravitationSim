@@ -95,8 +95,8 @@ function initButtons(Drawer, Physician) {
     });
 
     document.addEventListener('keydown', function(e) {
-        e.preventDefault();
         if (e.code == 'Space') {
+            e.preventDefault();
             if (!Physician.performing) {
                 Physician.start();
             }

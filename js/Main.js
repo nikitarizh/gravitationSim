@@ -98,7 +98,7 @@ function initButtons(Drawer, Physician) {
         e.preventDefault();
         if (e.code == 'Space') {
             if (!Drawer.drawing && !Physician.performing) {
-                Drawer.start();
+                // Drawer.start();
                 Physician.start();
             }
             else {

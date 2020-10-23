@@ -10,7 +10,7 @@ class Draw {
     BODY_MIN_R = 1;
     BODY_MAX_R = 4;
 
-    DEBUG_FONT_SIZE = 4 * u;
+    DEBUG_FONT_SIZE = 15;
 
     start() {
         if (!this.drawing) {

@@ -142,6 +142,7 @@ function initButtons(Drawer, Physician) {
 function initClickEvent(Drawer, Physician) {
     let x1 = -1, y1 = -1;
     let x2 = -1, y2 = -1;
+    let closestX = -1, closestY = -1;
     let mousedown = false;
     canv.addEventListener('mousedown', function(e) {
 
@@ -164,8 +165,10 @@ function initClickEvent(Drawer, Physician) {
             let closestBody = Physician.getClosestBody(x1, y1);
             
             if (closestBody != null) {
+                closestX = closestBody.x;
+                closestY = closestBody.y;
                 let radius = +document.getElementById('radius').value;
-                let dist = Physician.calculateDistance(x1, y1, closestBody.x, closestBody.y);
+                let dist = Physician.calculateDistance(x1, y1, closestX, closestY);
                 let orbitalSpeed = Physician.calculateOrbitalSpeed(closestBody, dist);
                 Notification.new('OK', 'Orbital speed for closest body: ' + orbitalSpeed);
                 
@@ -213,6 +216,8 @@ function initClickEvent(Drawer, Physician) {
         y1 = -1;
         x2 = -1;
         y2 = -1;
+        closestX = -1;
+        closestY = -1;
         mousedown = false;
     });
 
@@ -225,6 +230,9 @@ function initClickEvent(Drawer, Physician) {
     
     setInterval(function() {
         if (mousedown) {
+            if (closestX != -1 && closestY != -1) {
+                Drawer.drawLine(x1, y1, closestX, closestY, '#fff', 1);
+            }
             Drawer.drawLine(x1, y1, x2, y2, '#fff', 1);
             Drawer.drawText('speed: ' + Physician.calculateSpawnSpeed(x1, y1, x2, y2), x1, y1, COLOR_YELLOW);
         }

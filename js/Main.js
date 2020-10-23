@@ -102,7 +102,7 @@ function initButtons(Drawer, Physician) {
                 Physician.start();
             }
             else {
-                Drawer.stop();
+                // Drawer.stop();
                 Physician.stop();
             }
         }

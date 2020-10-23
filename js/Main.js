@@ -97,12 +97,10 @@ function initButtons(Drawer, Physician) {
     document.addEventListener('keydown', function(e) {
         e.preventDefault();
         if (e.code == 'Space') {
-            if (!Drawer.drawing && !Physician.performing) {
-                // Drawer.start();
+            if (!Physician.performing) {
                 Physician.start();
             }
             else {
-                // Drawer.stop();
                 Physician.stop();
             }
         }

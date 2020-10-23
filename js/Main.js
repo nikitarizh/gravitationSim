@@ -94,6 +94,26 @@ function initButtons(Drawer, Physician) {
         Notification.new('OK', 'Field cleared')
     });
 
+    document.addEventListener('keydown', function(e) {
+        e.preventDefault();
+        if (e.code == 'Space') {
+            if (!Drawer.drawing && !Physician.performing) {
+                Drawer.start();
+                Physician.start();
+            }
+            else {
+                Drawer.stop();
+                Physician.stop();
+            }
+        }
+        else if (e.code == 'KeyD') {
+            Drawer.toggleDebugDrawing();
+        }
+        else if (e.code == 'KeyT') {
+            Drawer.toggleTrajectoriesDrawing();
+        }
+    });
+
     drawStatus.addEventListener('click', function() {
         if (Drawer.drawing) {
             Drawer.stop();

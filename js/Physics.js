@@ -144,12 +144,23 @@ class Physics {
                     let m1 = bodies[i].mass;
                     let m2 = bodies[j].mass;
                     let m3 = m1 + m2;
-
-                    bodies[i].mass = m3;
-                    bodies[i].radius = Math.max(bodies[i].radius, bodies[j].radius);
-                    bodies[i].xSpeed = (m1 * bodies[i].xSpeed + m2 * bodies[j].xSpeed) / m3;
-                    bodies[i].ySpeed = (m1 * bodies[i].ySpeed + m2 * bodies[j].ySpeed) / m3;
-
+                    
+                    if (bodies[i].mass > bodies[j].mass) {
+                        bodies[i].mass = m3;
+                        bodies[i].radius = Math.max(bodies[i].radius, bodies[j].radius);
+                        bodies[i].xSpeed = (m1 * bodies[i].xSpeed + m2 * bodies[j].xSpeed) / m3;
+                        bodies[i].ySpeed = (m1 * bodies[i].ySpeed + m2 * bodies[j].ySpeed) / m3;
+                    }
+                    else {
+                        bodies[j].mass = m3;
+                        bodies[j].radius = Math.max(bodies[i].radius, bodies[j].radius);
+                        bodies[j].xSpeed = (m1 * bodies[i].xSpeed + m2 * bodies[j].xSpeed) / m3;
+                        bodies[j].ySpeed = (m1 * bodies[i].ySpeed + m2 * bodies[j].ySpeed) / m3;
+                        
+                        let temp = bodies[i];
+                        bodies[i] = bodies[j];
+                        bodies[j] = temp;
+                    }
                     bodies.splice(j, 1);
                 }
                 else {

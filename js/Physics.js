@@ -208,4 +208,9 @@ class Physics {
 
         return speed;
     }
+
+    calculateRadius(mass) {
+        let mult = 149.5 / (1e9 - 1);
+        return mass * mult + 0.5 - mult;
+    }
 }

@@ -267,20 +267,19 @@ function initClickEvent(Drawer, Physician) {
 }
 
 function checkInputs() {
-    let mass = document.getElementById('mass').value;
+    let mass = +document.getElementById('mass').value;
     // let radius = document.getElementById('radius').value;
+    let radius = (new Physics).calculateRadius(mass);
 
-    let mult = 149.5 / (1e9 - 1);
-    let radius = mass * mult + 0.5 - mult;
-
-    if (!mass || mass < 0 || isNaN(+mass)) {
+    if (!mass || mass < 0 || isNaN(mass)) {
         Notification.new('ERROR', 'Enter correct mass');
         return false;
     }
+
     // if (!radius || radius < 0 || isNaN(+radius)) {
     //     Notification.new('ERROR', 'Enter correct radius');
     //     return false;
     // }
 
-    return { mass: +mass, radius: +radius };
+    return { mass, radius };
 }

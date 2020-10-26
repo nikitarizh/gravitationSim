@@ -152,7 +152,8 @@ function initClickEvent(Drawer, Physician) {
 
         if (mousedown == false) {
 
-            if (!checkInputs()) {
+            let inputs = checkInputs();
+            if (!inputs) {
                 mousedown = false;
                 return;
             }
@@ -167,7 +168,7 @@ function initClickEvent(Drawer, Physician) {
             if (closestBody != null) {
                 closestX = closestBody.x;
                 closestY = closestBody.y;
-                let radius = +document.getElementById('radius').value;
+                let radius = inputs.radius;
                 let dist = Physician.calculateDistance(x1, y1, closestX, closestY);
                 let orbitalSpeed = Physician.calculateOrbitalSpeed(closestBody, dist);
                 Notification.new('OK', 'Orbital speed for closest body: ' + orbitalSpeed);
@@ -267,16 +268,19 @@ function initClickEvent(Drawer, Physician) {
 
 function checkInputs() {
     let mass = document.getElementById('mass').value;
-    let radius = document.getElementById('radius').value;
+    // let radius = document.getElementById('radius').value;
+
+    let mult = 149.5 / (1e9 - 1);
+    let radius = mass * mult + 0.5 - mult;
 
     if (!mass || mass < 0 || isNaN(+mass)) {
         Notification.new('ERROR', 'Enter correct mass');
         return false;
     }
-    if (!radius || radius < 0 || isNaN(+radius)) {
-        Notification.new('ERROR', 'Enter correct radius');
-        return false;
-    }
+    // if (!radius || radius < 0 || isNaN(+radius)) {
+    //     Notification.new('ERROR', 'Enter correct radius');
+    //     return false;
+    // }
 
     return { mass: +mass, radius: +radius };
 }

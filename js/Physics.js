@@ -161,6 +161,7 @@ class Physics {
                         bodies[i] = bodies[j];
                         bodies[j] = temp;
                     }
+                    bodies[i].radius = this.calculateRadius(bodies[i].mass);
                     bodies.splice(j, 1);
                 }
                 else {

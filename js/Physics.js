@@ -7,7 +7,7 @@ class Physics {
     FORCE_THRESHOLD = 10; // 0.5 by default
     FORCE_COEFFICIENT = 5e-6; // 5e-8 by default
     SPEED_THRESHOLD = 20; // 5 by default
-    SLOWING_COEFF = 0.000; // 0.0000 by default
+    SLOWING_COEFF = 0.001; // 0.0000 by default
 
     start() {
         if (!this.performing) {
@@ -32,11 +32,12 @@ class Physics {
     }
 
     processFrame() {
+
+        // this.calculateResistance();
+
         for (let i = 0; i < bodies.length; i++) {
             this.calculateForce(bodies[i]);
         }
-
-        this.calculateResistance();
 
         this.moveBodies();
 
@@ -85,8 +86,8 @@ class Physics {
 
     calculateResistance() {
         for (let i = 0; i < bodies.length; i++) {
-            bodies[i].xVelocity = this.moveToZero(bodies[i].xVelocity);
-            bodies[i].yVelocity = this.moveToZero(bodies[i].yVelocity);
+            bodies[i].xSpeed = this.moveToZero(bodies[i].xSpeed);
+            bodies[i].ySpeed = this.moveToZero(bodies[i].ySpeed);
         }
     }
 
